@@ -33,3 +33,29 @@ jobs:
 
     - name: Build com Maven
       run: mvn clean install
+   
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Executar testes com Maven
+        run: mvn test
+
+  deploy:
+      needs: build
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout código
+          uses: actions/checkout@v3
+
+        - name: Setup Java
+          uses: actions/setup-java@v3
+          with:
+            distribution: 'temurin'
+            java-version: '17'
+
+        - name: Deploy com Maven
+          run: mvn deploy
+          env:
+            MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+            MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
