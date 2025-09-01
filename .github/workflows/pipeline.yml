@@ -42,7 +42,7 @@ jobs:
         run: mvn test
 
   deploy:
-      needs: build
+      needs: test
       runs-on: ubuntu-latest
       steps:
         - name: Checkout código
